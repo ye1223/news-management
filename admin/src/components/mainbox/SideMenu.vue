@@ -1,7 +1,14 @@
 <template>
-    <el-aside width="200px">
-        <el-menu :collapse="true">
-            <!-- index为唯一标识 -->
+    <!-- 侧边栏 展开200px 收回64px -->
+    <el-aside :width="$store.state.isCollapsed?'64px':'200px'" >
+
+        <el-menu 
+        :collapse="$store.state.isCollapsed" 
+        :collapse-transition="false" 
+        :router="true"
+        :default-active="route.fullPath"
+        >
+            <!-- index为唯一标识,配合router属性，路由跳转  -->
             <el-menu-item index="/index">
                 <el-icon><HomeFilled /></el-icon>
                 <span>首页</span>
@@ -26,8 +33,8 @@
                     <el-icon><List /></el-icon>
                     <span>新闻管理</span>
                 </template>
-                <el-menu-item index="/news-manage/adduser">添加新闻</el-menu-item>
-                <el-menu-item index="/news-manage/userlist">新闻列表</el-menu-item>
+                <el-menu-item index="/news-manage/addnews">添加新闻</el-menu-item>
+                <el-menu-item index="/news-manage/newslist">新闻列表</el-menu-item>
             </el-sub-menu>
 
             <el-sub-menu index="/product-manage">
@@ -35,8 +42,8 @@
                     <el-icon><Shop /></el-icon>
                     <span>产品管理</span>
                 </template>
-                <el-menu-item index="/product-manage/adduser">添加产品</el-menu-item>
-                <el-menu-item index="/product-manage/userlist">产品列表</el-menu-item>
+                <el-menu-item index="/product-manage/addproduct">添加产品</el-menu-item>
+                <el-menu-item index="/product-manage/productlist">产品列表</el-menu-item>
             </el-sub-menu>
 
             
@@ -46,8 +53,9 @@
 
 <script setup>
 import {HomeFilled,Avatar,UserFilled,List,Shop} from '@element-plus/icons-vue'
-
-
+import { useRoute } from 'vue-router';
+const route = useRoute()
+//console.log('route',route.fullPath) //当前路由路径
 </script>
 
 <style lang="scss">

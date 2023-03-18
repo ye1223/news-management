@@ -10,7 +10,7 @@ import Particles from "vue3-particles";
 
 createApp(App)
 .use(store)
-.use(router)
 .use(ElementPlus)
+.use(router)
 .use(Particles)
 .mount('#app')

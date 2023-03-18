@@ -27,6 +27,8 @@
 import { loadFull } from "tsparticles"
 import { reactive, ref } from 'vue'
 import {useRouter} from 'vue-router'
+import axios from 'axios'
+import {ElMessage} from 'element-plus'
 
 //表单绑定的响应式对象
 const loginForm = reactive({
@@ -40,11 +42,11 @@ const loginFormRef = ref()
 const loginRules = reactive({
     username: [
         { required: true, message: '请输入用户名', trigger: 'blur' },
-        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+        { min: 3, max: 10, message: '请输入3-10位用户名', trigger: 'blur' }
     ],
     password: [
         { required: true, message: '请输入密码', trigger: 'blur' },
-        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' }
+        { min: 3, max: 10, message: '请输入3-10位密码', trigger: 'blur' }
     ]
 })
 
@@ -52,14 +54,23 @@ const router = useRouter()
 
 //提交表单函数
 const submitForm = () =>{
-    console.log('click')
     //1.校验表单
     loginFormRef.value.validate((valid)=>{//手动校验表单方法
         //  console.log(valid) //true or flase
-         console.log(loginForm)
-         localStorage.setItem('token','this is just a test token')
+        //  console.log(loginForm)
+        
 
-         router.push('/index')
+        axios.post('/adminapi/user/login',loginForm).then(res=>{
+            console.log(res.data.ActionType)
+            if(res.data.ActionType === 'OK'){
+                router.push('/index')
+                localStorage.setItem('token','this is just a test token')
+            }else{
+                ElMessage.error('用户名密码不匹配')
+            }
+        })
+
+         
     })
     //2.拿到表单内容，提交后台
 

@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <el-container>
             <SideMenu></SideMenu>
             <el-container direction="vertical">
@@ -8,8 +7,6 @@
                 <el-main><router-view></router-view></el-main>
             </el-container>
         </el-container>
-
-
     </div>
 </template>
 
