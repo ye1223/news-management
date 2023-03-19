@@ -29,6 +29,7 @@ import { reactive, ref } from 'vue'
 import {useRouter} from 'vue-router'
 import axios from 'axios'
 import {ElMessage} from 'element-plus'
+import {useStore} from 'vuex'
 
 //表单绑定的响应式对象
 const loginForm = reactive({
@@ -51,6 +52,7 @@ const loginRules = reactive({
 })
 
 const router = useRouter()
+const store = useStore()
 
 //提交表单函数
 const submitForm = () =>{
@@ -63,8 +65,10 @@ const submitForm = () =>{
         axios.post('/adminapi/user/login',loginForm).then(res=>{
             console.log(res.data.ActionType)
             if(res.data.ActionType === 'OK'){
+                // console.log(res.data.info)
+                store.commit('changeUserInfo',res.data.info)
                 router.push('/index')
-                localStorage.setItem('token','this is just a test token')
+                //localStorage.setItem('token','this is just a test token')
             }else{
                 ElMessage.error('用户名密码不匹配')
             }

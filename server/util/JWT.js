@@ -1,17 +1,22 @@
 const jsonwebtoken = require('jsonwebtoken')
 
 const secret = 'a random string'
+
 const JWT = {
-    generate(value,exipres){
-        jsonwebtoken.sign(value,secret,{expiresIn:exipres})
+    generate(value,expires){
+        return jsonwebtoken.sign(value,secret,{expiresIn:expires})
     },
     verify(token){
-        try{
+        try {
             return jsonwebtoken.verify(token,secret)
         }catch(e){
-            console.log(e)
+            return false
         }
     }
 }
+
+/* const token = JWT.generate({name:'123'},'10s')
+console.log(token)
+console.log(JWT.verify(token,secret)) */
 
 module.exports = JWT

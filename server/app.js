@@ -7,6 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const UserRouter = require('./routes/admin/UserRouter');
+const JWT = require('./util/JWT');
 
 var app = express();
 
@@ -22,6 +23,39 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+// token校验
+app.use((req,res,next)=>{
+
+  if(req.url==='/adminapi/user/login'){
+    next()
+    return
+  }
+  const token = req.headers['authorization'].split(' ')[1]
+  //token有效，next
+  if(token){
+    const payload = JWT.verify(token)
+    //console.log(payload)
+    /* {
+      _id: '6415cf9bd55e7a4ba145c613',
+      username: 'admin',
+      iat: 1679210616,
+      exp: 1679210626
+    } */
+    if(payload){
+      const newToken = JWT.generate({
+        _id:payload._id,
+        username:payload.username
+      },'1d')
+      console.log(newToken ===token)
+      res.header('Authorization',newToken)
+      next()
+    }else{
+      res.status(401).send({errorCode:'-1',errorInfo:'token过期'})
+    }
+  }
+  //token过期，返回401错误
+})
 
 /* 
   ! adminapi  管理系统的api

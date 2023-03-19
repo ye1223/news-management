@@ -6,6 +6,7 @@ export default createStore({
     
     isGetAllRouters:false,//路由是否全部加载进页面
     isCollapsed:false ,//Side页是否收回
+    userInfo:{},
 
   }, 
   getters: {
@@ -17,6 +18,15 @@ export default createStore({
     //控制侧边栏收缩/展开
     changeCollapse(state){
       state.isCollapsed = !state.isCollapsed
+    },
+    changeUserInfo(state,value){
+      state.userInfo = {
+        ...state.userInfo,
+        ...value
+      }
+    },
+    clearUserInfo(state){
+      delete state.userInfo
     }
   },
   actions: {
@@ -24,6 +34,6 @@ export default createStore({
   modules: {
   },
   plugins: [createPersistedState({
-    paths: ['isCollapsed'] //控制持久化元素
+    paths: ['isCollapsed','userInfo'] //控制持久化元素
   })]
 })
