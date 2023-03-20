@@ -12,7 +12,7 @@
                 <span class="el-dropdown-link">
                     <el-icon size="30px"><User /></el-icon>
                     <el-icon class="el-icon--right">
-                        <arrow-down />
+                        <!-- <arrow-down><arrow-down /> -->
                     </el-icon>
                 </span>
                 <template #dropdown>

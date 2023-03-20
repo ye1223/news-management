@@ -7,7 +7,7 @@ const UserType = {
     password:String,
     gender:Number,
     introduction:String,//个人简介
-    avatar:String,
+    avatarPath:String,
     role:Number//权限
 }
 

@@ -26,7 +26,8 @@ export default createStore({
       }
     },
     clearUserInfo(state){
-      delete state.userInfo
+      // delete state.userInfo
+      state.userInfo = {}
     }
   },
   actions: {

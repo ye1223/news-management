@@ -18,7 +18,7 @@
                     </template>
 
                     <el-form ref="userFormRef" :model="userForm" :rules="userFormRules" label-width="120px"
-                        class="demo-ruleForm" :size="formSize" status-icon>
+                        class="demo-ruleForm" status-icon>
                         <el-form-item label="用户名" prop="username">
                             <el-input v-model="userForm.username" />
                         </el-form-item>
@@ -32,20 +32,15 @@
                             <el-input v-model="userForm.introduction" type="textarea" />
                         </el-form-item>
                         <el-form-item label="头像" prop="avatar">
-                            <el-upload class="avatar-uploader"
-                                action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-                                :show-file-list="false"
-                                :auto-upload="false"
-                                :onchange="handleChange"
-                            >
-                                <img v-if="userForm.avatar" :src="userForm.avatar" class="avatar" />
-                                <el-icon v-else class="avatar-uploader-icon">
-                                    <Plus />
-                                </el-icon>
-                            </el-upload>
+
+                            <Upload 
+                                :avatarPath="userForm.avatarPath"
+                                @uploadOnChange="uploadOnChange"
+                            ></Upload>
+
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" @clcik="submitForm()">更新</el-button>
+                            <el-button type="primary" @click="submitForm">更新</el-button>
                         </el-form-item>
 
                     </el-form>
@@ -59,17 +54,21 @@
 <script setup>
 import { useStore } from 'vuex'
 import { computed, ref, reactive } from 'vue'
-import { Plus } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import upload from '@/util/upload'
+import Upload from '@/components/Upload.vue'
+
 const store = useStore()
-const avatarUrl = computed(() => store.state.userInfo.avatar ? store.state.userInfo.avatar : "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png")
 
 const userFormRef = ref()
-const { username, gender, introduction, avatar } = store.state.userInfo
+// vuex
+const { username, gender, introduction, avatarPath } = store.state.userInfo
 const userForm = reactive({
     username,
     gender,
     introduction,
-    avatar
+    avatarPath,
+    file: null
 })
 
 const userFormRules = reactive({
@@ -83,7 +82,7 @@ const userFormRules = reactive({
     introduction: [
         { required: true, message: '请输入介绍', trigger: 'blur' }
     ],
-    avatar: [
+    avatarPath: [
         { required: true, message: '请上传头像', trigger: 'blur' }
     ],
 
@@ -104,10 +103,32 @@ const options = [
     }
 ]
 
-//每次选择完图片的回调
-const handleChange = (file) =>{
-    console.log(file.target.files[0])
-    userForm.avatar = URL.createObjectURL(file.target.files[0])
+const avatarUrl = computed(() =>
+    store.state.userInfo.avatarPath ? `http://localhost:3000${store.state.userInfo.avatarPath}` : "https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png")
+
+const uploadOnChange = (file) =>{
+    userForm.avatarPath = URL.createObjectURL(file)
+    userForm.file = file
+}
+
+
+//更新提交
+const submitForm = () => {
+    userFormRef.value.validate(async valid => {
+        if (valid) {
+            /* ***************** */
+            const res = await upload('/adminapi/user/upload', userForm)
+            if (res.ActionType === 'OK') {
+                store.commit('changeUserInfo', res.info)
+                ElMessage.success('更新成功')
+            }
+        } else {
+            ElMessage.error('something went wrong')
+        }
+    })
+
+
+
 }
 </script>
 
@@ -118,36 +139,36 @@ const handleChange = (file) =>{
 }
 
 .avatar-uploader .avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
+    width: 178px;
+    height: 178px;
+    display: block;
 }
 </style>
 
 <style>
 .avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: var(--el-transition-duration-fast);
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
 }
 
 .avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
+    border-color: var(--el-color-primary);
 }
 
 .el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  text-align: center;
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
 }
 
-.avatar{
-  width: 178px;
-  height: 178px;
+.avatar {
+    width: 178px;
+    height: 178px;
 }
 </style>

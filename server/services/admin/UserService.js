@@ -1,8 +1,13 @@
 const UserModel = require("../../models/UserModel")
 
 const UserService = {
-    login:async(username,password)=>{
+    login:(username,password)=>{
        return UserModel.find({username,password})
+    },
+    upload:({_id,username,introduction,gender,avatarPath})=>{
+        return UserModel.updateOne({_id},{
+            username,introduction,gender,avatarPath
+        })
     }
 }
  
