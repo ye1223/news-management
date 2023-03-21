@@ -31,7 +31,7 @@
                         <el-form-item label="个人简介" prop="introduction">
                             <el-input v-model="userForm.introduction" type="textarea" />
                         </el-form-item>
-                        <el-form-item label="头像" prop="avatar">
+                        <el-form-item label="头像" prop="avatarPath">
 
                             <Upload 
                                 :avatarPath="userForm.avatarPath"
@@ -56,7 +56,7 @@ import { useStore } from 'vuex'
 import { computed, ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import upload from '@/util/upload'
-import Upload from '@/components/Upload.vue'
+import Upload from '../../components/upload/Upload.vue'
 
 const store = useStore()
 
@@ -126,9 +126,6 @@ const submitForm = () => {
             ElMessage.error('something went wrong')
         }
     })
-
-
-
 }
 </script>
 
@@ -137,38 +134,5 @@ const submitForm = () => {
     margin-top: 50px;
     text-align: center;
 }
-
-.avatar-uploader .avatar {
-    width: 178px;
-    height: 178px;
-    display: block;
-}
 </style>
 
-<style>
-.avatar-uploader .el-upload {
-    border: 1px dashed var(--el-border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-    border-color: var(--el-color-primary);
-}
-
-.el-icon.avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    text-align: center;
-}
-
-.avatar {
-    width: 178px;
-    height: 178px;
-}
-</style>

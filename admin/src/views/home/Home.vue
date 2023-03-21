@@ -32,9 +32,10 @@
 </template>
 
 <script setup>
-import store from '@/store';
+import {useStore} from 'vuex'
 import { computed } from 'vue'
-const avatarUrl = computed(()=>store.state.userInfo.avatar?store.state.userInfo.avatar:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png")
+const store = useStore()
+const avatarUrl = computed(()=>store.state.userInfo.avatarPath?`http://localhost:3000${store.state.userInfo.avatarPath}`:"https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png")
 /* import { useStore } from 'vuex'
 import axios from 'axios'
 axios.get('/adminapi/user/home').then(res=>{

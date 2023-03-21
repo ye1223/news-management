@@ -16,3 +16,11 @@ import SideMenu from '../components/mainbox/SideMenu.vue'
 
 
 </script>
+
+<style lang="scss" scoped>
+.el-main{
+    //滚动条
+    overflow: auto;
+    height: calc(100vh - 60px);
+}
+</style>

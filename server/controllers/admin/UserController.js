@@ -36,7 +36,7 @@ const UserController = {
         // console.log(req.body)
         console.log(req.file)
         const {username,introduction,gender} = req.body
-        const avatarPath = `/avataruploads/${req.file.filename}`
+        const avatarPath = req.file?`/avataruploads/${req.file.filename}`:''
 
         const token = req.headers['authorization'].split(' ')[1]
         const payload = JWT.verify(token)
@@ -50,11 +50,45 @@ const UserController = {
             avatarPath
         }) 
         
+        if(avatarPath){
+            res.send({
+                ActionType:'OK',
+                info:{
+                    username,introduction,gender:Number(gender),avatarPath
+                }
+            })
+        }else{
+            res.send({
+                ActionType:'OK',
+                info:{
+                    username,introduction,gender:Number(gender)
+                }
+            })
+        }
+    },
+    add:async(req,res)=>{
+        const {username,introduction,gender,role,password} = req.body
+        const avatarPath = req.file?`/avataruploads/${req.file.filename}`:''
+
+
+        await UserService.add({
+            username,
+            introduction,
+            gender:Number(gender),
+            avatarPath,
+            role:Number(role),
+            password
+        }) 
+        
         res.send({
             ActionType:'OK',
-            info:{
-                username,introduction,gender:Number(gender),avatarPath
-            }
+        })
+    },
+    getList:async(req,res)=>{
+        const result = await UserService.getList()
+        res.send({
+            ActionType:'OK',
+            listData:result
         })
     }
 }

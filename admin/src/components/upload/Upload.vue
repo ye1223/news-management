@@ -34,3 +34,37 @@ const uploadAvatar = computed(() =>
     (props.avatarPath.includes('blob') ? props.avatarPath : `http://localhost:3000${props.avatarPath}`)
 )
 </script>
+
+<style lang="scss" scoped>
+::v-deep .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+}
+
+::v-deep .el-upload {
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
+}
+
+::v-deep .el-upload:hover {
+    border-color: var(--el-color-primary);
+}
+
+::v-deep .el-icon.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    text-align: center;
+}
+
+.avatar {
+    width: 178px;
+    height: 178px;
+}
+</style>
