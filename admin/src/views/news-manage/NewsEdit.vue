@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-page-header content="创建新闻" title="新闻管理" icon=""></el-page-header>
+        <el-page-header content="编辑 新闻" title="新闻管理" @back="handleBack"></el-page-header>
 
         <el-form ref="newsFormRef" :model="newsForm" :rules="newsFormRules" label-width="120px" class="demo-ruleForm"
             status-icon>
@@ -8,7 +8,7 @@
                 <el-input v-model="newsForm.title" />
             </el-form-item>
             <el-form-item label="内容" prop="content">
-                <Editor @contentEvent="handleChange"> </Editor>
+                <Editor @contentEvent="handleChange" :content="newsForm.content" v-if="newsForm.content"> </Editor>
             </el-form-item>
 
             <el-form-item label="类别" prop="category">
@@ -30,12 +30,14 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,onMounted } from 'vue'
 import Editor from '@/components/editor/Editor.vue'
 import Upload from '@/components/upload/Upload.vue'
 import upload from '@/util/upload'
-import {useRouter} from 'vue-router'
+import {useRouter,useRoute} from 'vue-router'
+import axios from 'axios'
 const router = useRouter()
+const route = useRoute()
 const newsFormRef = ref()
 const newsForm = reactive({
     title: '', //标题
@@ -77,7 +79,7 @@ const options = [
 // Editor组件传值回调
 const handleChange = (data) =>{
     //newHtml结构
-    // console.log('Editor组件传来的',data)
+    console.log('Editor组件传来的',data)
     newsForm.content = data
 }
 // 图片上传回调
@@ -98,7 +100,17 @@ const submitForm = () =>{
     })
 }
 
+const handleBack = () =>{
+    router.back()
+}
 
+onMounted(async ()=>{
+    // console.log(route.params.newsid)
+    const res = await axios.get(`/adminapi/news/list/${route.params.newsid}`).then(res=>res.data)
+    // console.log(res)
+    Object.assign(newsForm,res.newsList[0])
+    console.log('newsForm',newsForm)
+})
 
 </script>
 

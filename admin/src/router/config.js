@@ -5,6 +5,7 @@ import UserAdd from '../views/user-manage/UserAdd'
 import UserList from '../views/user-manage/UserList'
 import NewsAdd from '../views/news-manage/NewsAdd'
 import NewsList from '../views/news-manage/NewsList'
+import NewsEdit from '../views/news-manage/NewsEdit'
 import ProductAdd from '../views/product-manage/ProductAdd'
 import ProductList from '../views/product-manage/ProductList' 
 import NotFound from '../views/notfound/NotFound'
@@ -39,6 +40,10 @@ const routes = [
     {
         path:'/news-manage/newslist',
         component:NewsList
+    },
+    {
+        path:'/news-manage/editnews/:newsid',
+        component:NewsEdit
     },
     //产品管理
     {
