@@ -35,13 +35,33 @@ const router = createRouter({
   //!权限判断 
   router.addRoute('mainbox',item)
 }) */
+const checkPermission = (item) =>{
+  // console.log(item)
+  if(item.requireAdminAuth){
+    return store.state.userInfo.role===1
+  }
+  return true
+}
 
-const ConfigRouter = () => routesConfig.forEach(item => {
-  //!权限判断 
-  router.addRoute('mainbox', item)
-  //已经加载完组件(改变为true)  
-  store.commit('changeGetAllRouters',true)
-})
+const ConfigRouter = () => {
+
+  if(!router.hasRoute('mainbox')){
+    router.addRoute({
+      name: 'mainbox',
+      path: '/mainbox',
+      component: MainBox
+    })
+  }
+
+  routesConfig.forEach(item => {
+    //!权限判断 
+    checkPermission(item)&& router.addRoute('mainbox', item)
+    //已经加载完组件(改变为true)  
+
+  })
+
+  store.commit('changeGetAllRouters', true)
+}
 
 //路由拦截
 router.beforeEach((to, from, next) => {
@@ -58,13 +78,18 @@ router.beforeEach((to, from, next) => {
     } else {
       //第一次路由未没加载进来，需要next(指定路径)
       if (!store.state.isGetAllRouters) {
+
+        //删除所有嵌套路由
+        //!删除mainbox
+        router.removeRoute('mainbox')
+
         ConfigRouter()
         next({
           path: to.fullPath
         })
         //其他时候，路由已经加载进页面，可以直接放行
       } else {
-        next() 
+        next()
       }
 
     }

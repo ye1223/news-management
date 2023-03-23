@@ -56,6 +56,8 @@ const store = useStore()
 
 //提交表单函数
 const submitForm = () =>{
+
+
     //1.校验表单
     loginFormRef.value.validate((valid)=>{//手动校验表单方法
         //  console.log(valid) //true or flase
@@ -67,6 +69,7 @@ const submitForm = () =>{
             if(res.data.ActionType === 'OK'){
                 // console.log(res.data.info)
                 store.commit('changeUserInfo',res.data.info)
+                store.commit('changeGetAllRouters',false) 
                 router.push('/index')
                 //localStorage.setItem('token','this is just a test token')
             }else{

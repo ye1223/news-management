@@ -23,11 +23,13 @@ const routes = [
     //用户管理
     {
         path:'/user-manage/adduser',
-        component:UserAdd
+        component:UserAdd,
+        requireAdminAuth:true
     },
     {
         path:'/user-manage/userlist',
-        component:UserList
+        component:UserList,
+        requireAdminAuth:true
     },
     //新闻管理
     {

@@ -85,11 +85,23 @@ const UserController = {
         })
     },
     getList:async(req,res)=>{
-        const result = await UserService.getList()
+        const result = await UserService.getList(req.params.itemId)
         res.send({
             ActionType:'OK',
             listData:result
         })
+    },
+    deleteListItem: async (req,res)=>{
+        
+        await UserService.deleteListItem(req.params.itemId)
+
+        res.send({
+            ActionType:'OK'
+        })
+    },
+    updateListItem:async (req,res) =>{
+        // console.log(req.body)
+        await UserService.updateListItem(req.body)
     }
 }
 

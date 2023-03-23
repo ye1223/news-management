@@ -47,7 +47,7 @@ app.use((req,res,next)=>{
         _id:payload._id,
         username:payload.username
       },'1d')
-      console.log(newToken ===token)
+      // console.log(newToken ===token)
       res.header('Authorization',newToken)
       next()
     }else{
