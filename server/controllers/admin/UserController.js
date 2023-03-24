@@ -27,7 +27,8 @@ const UserController = {
                     gender:result[0].gender?result[0].gender:0, //0保密 1男2女
                     introduction:result[0].introduction,
                     avatar:result[0].avatar,
-                    role:result[0].role
+                    role:result[0].role,
+                    userID:result[0]._id
                 }
             })
         }

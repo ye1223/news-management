@@ -7,7 +7,8 @@ const NewsType = {
     category:Number, // 1最新动态 2典型案例 3通知公告
     coverPath:String,
     isPublish:Number,
-    editTime:Date
+    editTime:Date,
+    userID:String
 }
 
 const NewsModel = mongoose.model('news',new Schema(NewsType))

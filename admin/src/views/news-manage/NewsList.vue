@@ -85,6 +85,8 @@ import {ref,onMounted} from 'vue'
 import formatTime from '@/util/formatTime'
 import {Edit,View,Delete,Message} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
+import {useStore} from 'vuex'
+const store = useStore()
 const router = useRouter()
 const tableData = ref([])
 const previewData = ref({})
@@ -92,11 +94,12 @@ const dialogVisible = ref(false)
 
 onMounted(()=>{
      getTableData()
-     console.log(tableData)
+    //  console.log(tableData)
 })
 const getTableData = async ()=>{
-    const res = await axios.get('/adminapi/news/lists').then(res=>res.data)
-    // console.log(res )
+    // 根据权限获取列表
+    const res = await axios.get(`/adminapi/news/lists/${store.state.userInfo.userID}`).then(res=>res.data)
+    console.log('resssss',res)
     tableData.value = res.newsList
 }
 

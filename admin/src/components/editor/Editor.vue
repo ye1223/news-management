@@ -22,7 +22,7 @@ onMounted(() => {
 
     // 配置 onchange 回调函数
     editor.config.onchange = function (newHtml) {
-    console.log('change 之后最新的 html', newHtml)
+    // console.log('change 之后最新的 html', newHtml)
 
     // 传给父组件
     emit('contentEvent',newHtml)

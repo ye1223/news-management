@@ -35,6 +35,8 @@ import Editor from '@/components/editor/Editor.vue'
 import Upload from '@/components/upload/Upload.vue'
 import upload from '@/util/upload'
 import {useRouter} from 'vue-router'
+import {useStore} from 'vuex'
+const store = useStore()
 const router = useRouter()
 const newsFormRef = ref()
 const newsForm = reactive({
@@ -43,7 +45,8 @@ const newsForm = reactive({
     category: 1, //1最新动态 2典型案例 3通知公告
     coverPath: '', //封面地址信息
     file: null, //提交给后端二进制文件
-    isPublish: 0 //false未发布 true已发布
+    isPublish: 0, //false未发布 true已发布
+    userID:store.state.userInfo.userID
 })
 const newsFormRules = reactive({
     title: [

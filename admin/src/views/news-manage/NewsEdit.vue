@@ -22,7 +22,7 @@
             </el-form-item>
 
             <el-form-item>
-                    <el-button type="primary" @click="submitForm">添加新闻</el-button>
+                    <el-button type="primary" @click="submitForm">更新新闻</el-button>
                 </el-form-item>
 
         </el-form>
@@ -79,7 +79,7 @@ const options = [
 // Editor组件传值回调
 const handleChange = (data) =>{
     //newHtml结构
-    console.log('Editor组件传来的',data)
+    // console.log('Editor组件传来的',data)
     newsForm.content = data
 }
 // 图片上传回调
@@ -92,10 +92,9 @@ const uploadOnChange = (file) =>{
 const submitForm = () =>{
     newsFormRef.value.validate(async (valid)=>{
         if(valid){
-            await upload('/adminapi/news/add',newsForm)
-            router.push('/news-manage/newslist')
-        }else{
-            console.log('aaaaa')
+            // console.log(newsForm)
+            await upload('/adminapi/news/list',newsForm)
+            router.back()
         }
     })
 }
