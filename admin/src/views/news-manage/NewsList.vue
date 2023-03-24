@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-card>
-            <el-page-header content="创建新闻" title="新闻管理" icon=""></el-page-header>
+            <el-page-header content="新闻列表" title="新闻管理" icon=""></el-page-header>
             <el-table :data="tableData" style="width: 100%">
                 <el-table-column type="index" label="编号 " width="160"  />
                 <el-table-column prop="title" label="标题"  />
