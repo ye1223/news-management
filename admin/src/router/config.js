@@ -8,6 +8,7 @@ import NewsList from '../views/news-manage/NewsList'
 import NewsEdit from '../views/news-manage/NewsEdit'
 import ProductAdd from '../views/product-manage/ProductAdd'
 import ProductList from '../views/product-manage/ProductList' 
+import ProductEdit from '../views/product-manage/ProductEdit' 
 import NotFound from '../views/notfound/NotFound'
 
 const routes = [
@@ -53,6 +54,10 @@ const routes = [
     {
         path:'/product-manage/productlist',
         component:ProductList
+    },
+    {
+        path:'/product-manage/editproduct/:productid',
+        component:ProductEdit
     },
     {
         path:'/',

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-page-header content="添加产品" title="产品管理" icon=""></el-page-header>
+        <el-page-header content="添加产品" title="产品管理" @back="handleBack"></el-page-header>
 
         <el-card>
             <el-form ref="productFormRef" :model="productForm" :rules="productFormRules" label-width="120px" class="demo-ruleForm"
@@ -23,7 +23,7 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm">添加产品</el-button>
+                    <el-button type="primary" @click="submitForm">更新产品</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
@@ -31,10 +31,11 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import Upload from '@/components/upload/Upload.vue'
 import upload from '@/util/upload'
-import {useRouter} from 'vue-router'
+import {useRouter,useRoute} from 'vue-router'
+import axios from 'axios';
 
 const productFormRef = ref()
 const productForm = reactive({
@@ -71,15 +72,22 @@ const router = useRouter()
 const submitForm = () =>{
     productFormRef.value.validate(async valid=>{
         if(valid){
-            const res = await upload('/adminapi/product/add',productForm)
-            if(res.ActionType === 'OK'){
-                console.log('product',productForm)
-                router.push('/product-manage/productlist')
-            }  
+            await upload('/adminapi/product/list',productForm)
+            router.back()
         }
     })
     
 }
+
+const handleBack = () =>{
+    router.back()
+}
+
+const route = useRoute()
+onMounted(async ()=>{
+    const res = await axios.get(`/adminapi/product/list/${route.params.productid}`).then(res=>res.data)
+    Object.assign(productForm,res.productList[0])
+})
 
 </script>
 
