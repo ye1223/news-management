@@ -8,6 +8,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const UserRouter = require('./routes/admin/UserRouter');
 const NewsRouter = require('./routes/admin/NewsRouter');
+const WebNewsRouter = require('./routes/web/NewsRouter');
+
 const ProductRouter = require('./routes/admin/ProductRouter');
 const JWT = require('./util/JWT');
 
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// web请求列表，不用做下面jwt校验
+app.use(WebNewsRouter);
 
 
 // token校验
