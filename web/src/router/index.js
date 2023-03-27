@@ -4,6 +4,7 @@ import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
 import Home from '../views/Home.vue'
+import NewsCenter from '../views/NewsCenter.vue'
 import News from '../views/News.vue'
 import Product from '../views/Product.vue'
 
@@ -14,8 +15,13 @@ const routes = [
     component:Home
   },
   {
+    name:'news-center',
+    path:'/news-center',
+    component:NewsCenter
+  },
+  {
     name:'news',
-    path:'/news',
+    path:'/news/:newsid',
     component:News
   },
   {

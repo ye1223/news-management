@@ -8,7 +8,7 @@
         :router="true"
     >
         <el-menu-item index="/">首页</el-menu-item>
-        <el-menu-item index="/news">新闻中心</el-menu-item>
+        <el-menu-item index="/news-center">新闻中心</el-menu-item>
         <el-menu-item index="/product">产品与服务</el-menu-item>
         <el-menu-item index="" @click="handleLogin">登录</el-menu-item>
     </el-menu>
