@@ -11,6 +11,7 @@ const NewsRouter = require('./routes/admin/NewsRouter');
 const WebNewsRouter = require('./routes/web/NewsRouter');
 
 const ProductRouter = require('./routes/admin/ProductRouter');
+const WebProductRouter = require('./routes/web/ProductRouter');
 const JWT = require('./util/JWT');
 
 var app = express();
@@ -29,6 +30,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 // web请求列表，不用做下面jwt校验
 app.use(WebNewsRouter);
+app.use(WebProductRouter)
 
 
 // token校验
